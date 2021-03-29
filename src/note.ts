@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import { resolve } from 'path';
 
 const notesNumber: any = {
     'C': 1,
@@ -20,9 +19,18 @@ const notesNumber: any = {
     'Bb': 11,
     'B': 12,
 }
-
+let notesCache: {note: number, times: number}[] = _.range(60, 73).map(i => ({note: i, times: 0}));
+let prevNote = 60;
 export function randomNote(): Note {
-    return Note.fromNumber(_.random(60, 72))
+    const num = _.random(60, 72);
+    const minTimes = notesCache.reduce((min, c) => c.times < min ? c.times : min, notesCache[0].times);
+    const candidates = notesCache.filter(c => minTimes + 2 > c.times)
+        .map(c => c.note)
+        .concat(prevNote);
+    const chosen = _.sample(candidates)!;
+    const inCache = notesCache.find(c => c.note === chosen);
+    inCache!.times += 1;
+    return Note.fromNumber(chosen)
 }
 
 export class Note {
