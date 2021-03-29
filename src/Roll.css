@@ -66,6 +66,7 @@
   transform: scale(.95);
   border-color: #028ae9;
   box-shadow: 0 0 1rem #028ae9;
+
 }
 
 .hints {
@@ -78,7 +79,38 @@
   transition: opacity .3s ease-out;
   font-size: 20px;
 }
+:root {
+  --offset: 0deg;
+}
+.playing[data-note^="C"] {
+  border-color: rgb(255, 0, 0);
+  box-shadow: 0 0 1rem rgb(255, 0, 0);
+}
+.playing[data-note^="D"] {
+  border-color: rgb(255, 255, 0);
+  box-shadow: 0 0 1rem rgb(255, 255, 0);
+}
+.playing[data-note^="E"] {
+  border-color: rgb(0, 255, 0);
+  box-shadow: 0 0 1rem rgb(0, 255, 0);
+}
+.playing[data-note^="F"] {
+  border-color: rgb(0, 255, 255);
+  box-shadow: 0 0 1rem rgb(0, 255, 255);
+}
+.playing[data-note^="G"] {
+  border-color:rgb(0, 0, 255);
+  box-shadow: 0 0 1rem rgb(0, 0, 255);
+}
+.playing[data-note^="A"] {
+  border-color: rgb(123, 0, 255);
+  box-shadow: 0 0 1rem rgb(123, 0, 255);
+}
+.playing[data-note^="B"] {
+  border-color: rgb(255, 0, 255);
+  box-shadow: 0 0 1rem rgb(255, 0, 255);
 
+}
 /* .keys:hover .hints {
   opacity: 1;
 } */

@@ -70,59 +70,24 @@ export function Roll({onKey}: {onKey: (e: Note) => void} ) {
 
     return (
 <section id="main">
-    <div className="nowplaying"></div>
     <div className="keys" onMouseDown={mouseDown}>
-      <div data-key="65" className="key" data-note="C4">
-          <span className="hints">A</span>
-      </div>
-      <div data-key="87" className="key sharp" data-note="C#4">
-          <span className="hints">W</span>
-      </div>
-      <div data-key="83" className="key" data-note="D4">
-          <span className="hints">S</span>
-      </div>
-      <div data-key="69" className="key sharp" data-note="D#4">
-          <span className="hints">E</span>
-      </div>
-      <div data-key="68" className="key" data-note="E4">
-          <span className="hints">D</span>
-      </div>
-      <div data-key="70" className="key" data-note="F4">
-          <span className="hints">F</span>
-      </div>
-      <div data-key="84" className="key sharp" data-note="F#4">
-          <span className="hints">T</span>
-      </div>
-      <div data-key="71" className="key" data-note="G4">
-          <span className="hints">G</span>
-      </div>
-      <div data-key="89" className="key sharp" data-note="G#4">
-          <span className="hints">Y</span>
-      </div>
-      <div data-key="72" className="key" data-note="A4">
-          <span className="hints">H</span>
-      </div>
-      <div data-key="85" className="key sharp" data-note="A#4">
-          <span className="hints">U</span>
-      </div>
-      <div data-key="74" className="key" data-note="B4">
-          <span className="hints">J</span>
-      </div>
-      <div data-key="75" className="key" data-note="C5">
-          <span className="hints">K</span>
-      </div>
-      <div data-key="79" className="key sharp" data-note="C#5">
-          <span className="hints">O</span>
-      </div>
-      <div data-key="76" className="key" data-note="D5">
-          <span className="hints">L</span>
-      </div>
-      <div data-key="80" className="key sharp" data-note="D#5">
-          <span className="hints">P</span>
-      </div>
-      <div data-key="186" className="key" data-note="E5">
-          <span className="hints">;</span>
-      </div>
+      <div data-key="65" className="key" data-note="C4"></div>
+      <div data-key="87" className="key sharp" data-note="C#4"></div>
+      <div data-key="83" className="key" data-note="D4"></div>
+      <div data-key="69" className="key sharp" data-note="D#4"></div>
+      <div data-key="68" className="key" data-note="E4"></div>
+      <div data-key="70" className="key" data-note="F4"></div>
+      <div data-key="84" className="key sharp" data-note="F#4"></div>
+      <div data-key="71" className="key" data-note="G4"></div>
+      <div data-key="89" className="key sharp" data-note="G#4"></div>
+      <div data-key="72" className="key" data-note="A4"></div>
+      <div data-key="85" className="key sharp" data-note="A#4"></div>
+      <div data-key="74" className="key" data-note="B4"></div>
+      <div data-key="75" className="key" data-note="C5"></div>
+      <div data-key="79" className="key sharp" data-note="C#5"></div>
+      <div data-key="76" className="key" data-note="D5"></div>
+      <div data-key="80" className="key sharp" data-note="D#5"></div>
+      <div data-key="186" className="key" data-note="E5"></div>
     </div>
 </section>)
 }
