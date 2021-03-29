@@ -31,7 +31,7 @@ export class Note {
         const letter = letters[midi % 12];
         const octave = Math.floor(midi / 12) - 1;
         const accidental = letter[1] || null;
-        return new Note(midi, letter + octave, accidental);
+        return new Note(midi, letter + octave, accidental, letter, octave);
     }
 
     static fromString(s: string) {
@@ -40,9 +40,14 @@ export class Note {
         const octave = +s[s.length - 1];
         const midi = (noteNumber) + 12*(octave + 1);
         const accidental = (s[1] === 'b' || s[1] === '#') ? s[1] : null;
-        return new Note(midi, s, accidental);
+        return new Note(midi, s, accidental, note, octave);
     }
-    constructor(public midi: number, public str: string, public accidental: string | null) {}
+    constructor(
+        public midi: number,
+        public str: string,
+        public accidental: string | null,
+        public note: string,
+        public octave: number) {}
 
     eq(note: Note) {
         return this.midi === note.midi;

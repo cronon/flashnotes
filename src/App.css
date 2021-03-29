@@ -1,3 +1,10 @@
-.App {
+main {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
+#root {
+  flex-grow: 1;
+}
+
