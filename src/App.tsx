@@ -1,19 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import './App.css';
 import { Stave } from './stave';
-import {endNote, Note, noteToNumber, randomNote, sharpen, startNote} from './note';
+import {endNote,Note, playNote, randomNote, startNote} from './note';
 import { Roll } from './Roll';
 
 function App() {
-  const [step, setStep] = useState(0);
-  const [note, setNote] = useState('C4');
+  const [note, setNote] = useState(Note.fromString('C4'));
   const [result, setResult] = useState('?');
   useEffect(() => {
-    console.log('new note', note)
-    const sharpNote = sharpen(note);
-    startNote(sharpNote);
-    setTimeout(() => endNote(sharpNote), 500);
-
+    playNote(note);
+  }, [note]);
+  const onKey = useCallback((played: Note) => {
+    if (played.eq(note)) {
+      setResult(note.toString());
+      setTimeout(() => {
+        setResult('?');
+        const nextNote = randomNote();
+        setNote(nextNote)
+      }, 500)
+    }
   }, [note])
   return (
     <div className="App">
@@ -22,17 +27,6 @@ function App() {
       <Roll onKey={onKey} />
     </div>
   );
-
-  function onKey(played: Note) {
-    console.log('onKey', played, sharpen(note))
-    if (played === sharpen(note)) {
-      setResult(note);
-      setTimeout(() => {
-        setResult('?')
-        setNote(randomNote());
-      }, 500)
-    }
-  }
 }
 
 export default App;

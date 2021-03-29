@@ -14,7 +14,7 @@ export function Stave({note}: {note: Note}) {
         // Create a 4/4 treble stave, and add two parallel voices
         const stave =  system.addStave({
             voices: [
-                score.voice(score.notes(note), {}).setMode(VF.Voice.Mode.SOFT)
+                score.voice(score.notes(note.toString()), {}).setMode(VF.Voice.Mode.SOFT)
             ]
         });
         stave.addClef('treble');

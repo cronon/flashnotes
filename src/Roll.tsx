@@ -1,27 +1,33 @@
 import _ from 'lodash';
-import react, { useEffect } from 'react';
-import { endNote, Note, startNote } from './note';
+import react, { useCallback, useEffect } from 'react';
+import { endNote, Note, playNote, startNote } from './note';
 import './Roll.css';
-const keyToNote: any = {
-    "65": "C4",
-    "87": "C#4",
-    "83": "D4",
-    "69": "D#4",
-    "68": "E4",
-    "70": "F4",
-    "84": "F#4",
-    "71": "G4",
-    "89": "G#4",
-    "72": "A4",
-    "85": "A#4",
-    "74": "B4",
-    "75": "C5",
-    "79": "C#5",
-    "76": "D5",
-    "80": "D#5",
-    "186": "E5",
-}
 
+function keyToNote(key: number) {
+    const keyMap: any = {
+        65: "C4",
+        87: "C#4",
+        83: "D4",
+        69: "D#4",
+        68: "E4",
+        70: "F4",
+        84: "F#4",
+        71: "G4",
+        89: "G#4",
+        72: "A4",
+        85: "A#4",
+        74: "B4",
+        75: "C5",
+        79: "C#5",
+        76: "D5",
+        80: "D#5",
+        186: "E5",
+    }
+    const res = keyMap[key];
+    if (res) return Note.fromString(res);
+    else throw new Error('Undefined key pressed ' + key)
+}
+let mouseNote: Note | null = null;
 export function Roll({onKey}: {onKey: (e: Note) => void} ) {
     useEffect(() => {
         window.addEventListener("keydown", keyDown);
@@ -31,34 +37,37 @@ export function Roll({onKey}: {onKey: (e: Note) => void} ) {
             const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
             if (!key) return;
             key.classList.add("playing");
-            startNote(keyToNote[e.keyCode.toString()])
+            startNote(keyToNote(e.keyCode))
         }
         function keyUp(e: KeyboardEvent) {
             const key: any = document.querySelector(`.key[data-key="${e.keyCode}"]`);
             if (!key) return;
             key.classList.remove("playing");
-            endNote(keyToNote[e.keyCode.toString()])
-            onKey(key.dataset.note)
+            const note = keyToNote(e.keyCode);
+            endNote(note)
+            onKey(note)
         }
         return () => {
             window.removeEventListener("keydown", keyDown);
             window.removeEventListener('keyup', keyUp);
         }
-    }, []);
+    }, [onKey]);
 
-    function mouseDown(e: any) {
+    const mouseDown = useCallback(function (e: any) {
         const target = e.target as HTMLElement;
-        const note = target.dataset.note
-        if (note) {
+        const noteStr = target.dataset.note
+        if (noteStr) {
+            const note = Note.fromString(noteStr);
             startNote(note);
             target.classList.add('playing');
-            setTimeout(() => {
+            mouseNote = note;
+            playNote(note).then(() => {
                 target.classList.remove('playing')
-                endNote(note);
                 onKey(note);
-            }, 300);
+            });
         }
-    }
+    }, [onKey]);
+
     return (
 <section id="main">
     <div className="nowplaying"></div>

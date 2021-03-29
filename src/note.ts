@@ -1,8 +1,7 @@
-export type Note = string; // C1 Cb2 C#3
 import _ from 'lodash';
-import {sample, random} from 'lodash';
+import { resolve } from 'path';
 
-const notesNumber = {
+const notesNumber: any = {
     'C': 1,
     'C#': 2,
     'Db': 2,
@@ -21,66 +20,74 @@ const notesNumber = {
     'Bb': 11,
     'B': 12,
 }
-export const sharpes: {[x: string]: string} = {
-    'C': 'C',
-    'C#': 'C#',
-    'Db': 'C#',
-    'D': 'D',
-    'D#': 'D#',
-    'Eb': 'D#',
-    'E': 'E',
-    'F': 'F',
-    'F#': 'F#',
-    'Gb': 'F#',
-    'G': 'G',
-    'G#': 'G#',
-    'Ab': 'G#',
-    'A': 'A',
-    'A#': 'A#',
-    'Bb': 'A#',
-    'B': 'B',
-}
-export function sharpen(n: Note): Note {
-    const stymbols = n.split('');
-    if (n.length === 3) {
-        return sharpes[n[0]+n[1]] + n[2];
-    } else {
-        return n;
-    }
-}
-
-export function noteToNumber(n: Note): number {
-    const symbols = n.split('');
-    const letter = symbols[0];
-    const sharp = symbols[1] === '#' ? 1 : 0;
-    const flat = symbols[1] === 'b' ? -1 : 0;
-    const octave = (sharp || flat) ? +symbols[2] : +symbols[1]
-    const noteNumber = 'CDEFGAB'.indexOf(letter) + 1;
-    return (noteNumber + sharp + flat) + 12*octave;
-}
 
 export function randomNote(): Note {
-    const letter = sample(Object.keys(notesNumber)) as string;
-    const octave = sample([4, 5])
-    const note = letter + octave;
-    return noteToNumber(note) <= 61 ? note : randomNote();
+    return Note.fromNumber(_.random(60, 72))
 }
 
-let playing: Note[] = [];
-export function startNote(note: Note) {
-    console.log('start note', note);
-    const audio: any = document.querySelector(`audio[data-note="${note}"]`);
-    if (playing.indexOf(note) === -1) {
-        playing.push(note);
-        audio.currentTime = 0;
-        audio.play();
+export class Note {
+    static fromNumber(midi: number) {
+        const letters = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+        const letter = letters[midi % 12];
+        const octave = Math.floor(midi / 12) - 1;
+        const accidental = letter[1] || null;
+        return new Note(midi, letter + octave, accidental);
     }
+
+    static fromString(s: string) {
+        const note = s.length === 3 ? s[0] + s[1] : s[0];
+        const noteNumber = notesNumber[note] - 1;
+        const octave = +s[s.length - 1];
+        const midi = (noteNumber) + 12*(octave + 1);
+        const accidental = (s[1] === 'b' || s[1] === '#') ? s[1] : null;
+        return new Note(midi, s, accidental);
+    }
+    constructor(public midi: number, public str: string, public accidental: string | null) {}
+
+    eq(note: Note) {
+        return this.midi === note.midi;
+    }
+
+    toString() {
+        return this.str;
+    }
+}
+
+
+let playing: Note[] = [];
+function withAudio(note: Note, cb: (audio: HTMLAudioElement) => void) {
+    const audio: HTMLAudioElement | null = document.querySelector(`audio[data-note="${note.toString()}"]`);
+    if (audio) {
+        cb(audio);
+    } else {
+        throw new Error('Cannot find <audio> for note ' + note.toString());
+    }
+}
+export function startNote(note: Note) {
+    withAudio(note, audio => {
+        if (!playing.find(p => p.eq(note))) {
+            playing.push(note);
+            audio.currentTime = 0;
+            audio.play();
+        }
+    });
 }
 export function endNote(note?: Note) {
     note = note || _.last(playing);
-    const audio: any = document.querySelector(`audio[data-note="${note}"]`);
-    audio.currentTime = 0;
-    audio.pause();
-    _.pull(playing, note);
-    
+    if (note) {
+        withAudio(note, audio => {
+            audio.currentTime = 0;
+            audio.pause();
+            _.remove(playing, p => p.eq(note!));
+        });
+    }
+}
+export async function playNote(note: Note): Promise<void> {
+    startNote(note);
+    return new Promise(res => {
+        setTimeout(() => {
+            endNote(note)
+            res();
+        }, 500)
+    })
 }
