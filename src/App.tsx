@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import './App.css';
 import { Stave } from './stave';
-import {endNote,Note, playNote, randomNote, startNote} from './note';
+import {Note, playNote, randomNote} from './note';
 import { Roll } from './Roll';
 
 function App() {
