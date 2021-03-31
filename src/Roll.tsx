@@ -41,7 +41,6 @@ export function Roll({onKey}: {onKey: (e: Note) => void} ) {
         }
         function keyUp(e: KeyboardEvent) {
             const key: any = document.querySelector(`.key[data-key="${e.keyCode}"]`);
-            console.log(e.keyCode, key)
             if (!key) return;
             key.classList.remove("playing");
             const note = keyToNote(e.keyCode);
