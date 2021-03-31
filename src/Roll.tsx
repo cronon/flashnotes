@@ -41,6 +41,7 @@ export function Roll({onKey}: {onKey: (e: Note) => void} ) {
         }
         function keyUp(e: KeyboardEvent) {
             const key: any = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+            console.log(e.keyCode, key)
             if (!key) return;
             key.classList.remove("playing");
             const note = keyToNote(e.keyCode);
@@ -71,23 +72,31 @@ export function Roll({onKey}: {onKey: (e: Note) => void} ) {
     return (
 <section id="main">
     <div className="keys" onMouseDown={mouseDown}>
-      <div data-key="65" className="key" data-note="C4"></div>
-      <div data-key="87" className="key sharp" data-note="C#4"></div>
-      <div data-key="83" className="key" data-note="D4"></div>
-      <div data-key="69" className="key sharp" data-note="D#4"></div>
-      <div data-key="68" className="key" data-note="E4"></div>
-      <div data-key="70" className="key" data-note="F4"></div>
-      <div data-key="84" className="key sharp" data-note="F#4"></div>
-      <div data-key="71" className="key" data-note="G4"></div>
-      <div data-key="89" className="key sharp" data-note="G#4"></div>
-      <div data-key="72" className="key" data-note="A4"></div>
-      <div data-key="85" className="key sharp" data-note="A#4"></div>
-      <div data-key="74" className="key" data-note="B4"></div>
-      <div data-key="75" className="key" data-note="C5"></div>
-      <div data-key="79" className="key sharp" data-note="C#5"></div>
-      <div data-key="76" className="key" data-note="D5"></div>
-      <div data-key="80" className="key sharp" data-note="D#5"></div>
-      <div data-key="186" className="key" data-note="E5"></div>
+      <div data-key="65" className="key key-white" data-note="C4"></div>
+      <div data-key="87" className="key key-sharp" data-note="C#4"></div>
+      <div data-key="83" className="key key-white" data-note="D4"></div>
+      <div data-key="69" className="key key-sharp" data-note="D#4"></div>
+      <div data-key="68" className="key key-white" data-note="E4"></div>
+      <div data-key="70" className="key key-white" data-note="F4"></div>
+      <div data-key="84" className="key key-sharp" data-note="F#4"></div>
+      <div data-key="71" className="key key-white" data-note="G4"></div>
+      <div data-key="89" className="key key-sharp" data-note="G#4"></div>
+      <div data-key="72" className="key key-white" data-note="A4"></div>
+      <div data-key="85" className="key key-sharp" data-note="A#4"></div>
+      <div data-key="74" className="key key-white" data-note="B4"></div>
+
+      <div data-key="75" className="key key-white" data-note="C5"></div>
+      <div data-key="79" className="key key-sharp" data-note="C#5"></div>
+      <div data-key="76" className="key key-white" data-note="D5"></div>
+      <div data-key="80" className="key key-sharp" data-note="D#5"></div>
+      <div data-key="186" className="key key-white" data-note="E5"></div>
+      <div className="key key-white" data-note="F5"></div>
+      <div className="key key-sharp" data-note="F#5"></div>
+      <div className="key key-white" data-note="G5"></div>
+      <div className="key key-sharp" data-note="G#5"></div>
+      <div className="key key-white" data-note="A5"></div>
+      <div className="key key-sharp" data-note="A#5"></div>
+      <div className="key key-white" data-note="B5"></div>
     </div>
 </section>)
 }

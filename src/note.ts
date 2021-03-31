@@ -19,10 +19,9 @@ const notesNumber: any = {
     'Bb': 11,
     'B': 12,
 }
-let notesCache: {note: number, times: number}[] = _.range(60, 73).map(i => ({note: i, times: 0}));
+let notesCache: {note: number, times: number}[] = _.range(60, 84).map(i => ({note: i, times: 0}));
 let prevNote = 60;
 export function randomNote(): Note {
-    const num = _.random(60, 72);
     const minTimes = notesCache.reduce((min, c) => c.times < min ? c.times : min, notesCache[0].times);
     const candidates = notesCache.filter(c => minTimes + 2 > c.times)
         .map(c => c.note)
